@@ -7,6 +7,9 @@ from streamlit_folium import st_folium
 
 import streamlit as st
 
+# %% Page layout
+# Set page config
+st.set_page_config(layout="wide")
 
 # Import hotels data
 # %%Data Extraction
