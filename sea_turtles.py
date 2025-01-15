@@ -14,7 +14,6 @@ st.set_page_config(layout="wide")
 # Import hotels data
 # %%Data Extraction
 # Caching data fetched from the API. The values will be updated every 24h
-@st.cache_data(ttl=86400, show_spinner="Actualizando los datos...")
 def load_data(filepath):
     turtles_data = pd.read_csv(
         rf"{filepath}",
