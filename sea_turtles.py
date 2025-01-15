@@ -21,7 +21,7 @@ def load_data(filepath):
     return turtles_data.fillna("NA")
 
 
-turtles_data = load_data(r"Resources\seaturtles.csv")
+turtles_data = load_data("Resources/seaturtles.csv")
 
 # Sample data simulating population trends
 
@@ -294,7 +294,7 @@ last_date = filtered_years["date_year"].astype(int).max()
 col1, col2 = st.columns([0.9, 9])
 with col1:
     st.image(
-        r"Resources\Turtle+no+background.png",
+        "Resources/Turtle+no+background.png",
         width=100,
     )
 with col2:
