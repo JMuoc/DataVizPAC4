@@ -1,4 +1,4 @@
-# Import libraries
+# %% Import libraries
 import folium
 import pandas as pd
 import plotly.graph_objects as go
@@ -11,9 +11,7 @@ import streamlit as st
 # Set page config
 st.set_page_config(layout="wide")
 
-# Import hotels data
-# %%Data Extraction
-# Caching data fetched from the API. The values will be updated every 24h
+# %% App functions
 def load_data(filepath):
     turtles_data = pd.read_csv(
         rf"{filepath}",
@@ -22,14 +20,8 @@ def load_data(filepath):
     turtles_data = turtles_data.loc[turtles_data["date_year"].dropna()]
     return turtles_data.fillna("NA")
 
-
-turtles_data = load_data("Resources/seaturtles.csv")
-
-# Sample data simulating population trends
-
-
 def turtle_population_plot(df):
-    """Create a Plotly line graph showing the yearly evolution of Hawksbill sea turtle populations.
+    """Create line graph showing the yearly evolution of Hawksbill sea turtle populations.
 
     Args:
     ----
@@ -62,8 +54,8 @@ def turtle_population_plot(df):
 
     # Add annotations
     fig.add_annotation(
-        x=2009,  # Adjust this based on the relevant year
-        y=df_yearly["count"].max(),  # Adjust the y-position as needed
+        x=2009,  
+        y=df_yearly["count"].max(),  
         text="Surveys from 2007-2009 found hawksbill nesting in 6 eastern Pacific nations, with 80% of nests in El Salvador.",
         showarrow=True,
         arrowhead=2,
@@ -72,15 +64,15 @@ def turtle_population_plot(df):
         font={
             "size": 12,
             "color": "#43A047",
-        },  # Secondary color for the annotation text
-        bgcolor="#002B36",  # Dark background to make the text stand out
-        bordercolor="#43A047",  # Match the annotation border to secondary background color
+        },  
+        bgcolor="#002B36", 
+        bordercolor="#43A047",  
     )
     fig.add_annotation(
-        x=2019,  # Position at year 2019
+        x=2019, 
         y=df_yearly.query("date_year == 2019")["count"].values[
             0
-        ],  # Use the count for 2019
+        ],  
         text=(
             "Hawksbill turtles are currently classified as Critically Endangered by the IUCN.<br>"
             "A major threat to hawksbill turtles is the loss of nesting habitat and coral reefs<br>"
@@ -94,10 +86,10 @@ def turtle_population_plot(df):
             "size": 12,
             "color": "#E64A19",
         },
-        bgcolor="#002B36",  # Dark background to make the text stand out
-        bordercolor="#E64A19",  # Match the annotation border to the specified color
+        bgcolor="#002B36",  
+        bordercolor="#E64A19",  
     )
-    # Set layout with color and style options
+    # Set layout
     fig.update_layout(
         title="Yearly Evolution of Hawksbill Sea Turtle Population",
         xaxis={"title": "", "showgrid": False, "color": "#FDD835"},
@@ -112,7 +104,7 @@ def turtle_population_plot(df):
 
 
 def scatter_plot(df):
-    """Create a Plotly scatter plot with dual y-axes for 'sst' (temperature) and 'sss' (salinity) over 'date_year'.
+    """Create scatter plot with dual y-axes for 'sst' (temperature) and 'sss' (salinity) over 'date_year'.
 
     Args:
     ----
@@ -136,7 +128,7 @@ def scatter_plot(df):
             y=df_yearly["sst"],
             mode="lines+markers",
             name="SST (Temperature)",
-            marker={"size": 8, "color": "#FF5722"},  # Red-orange for temperature
+            marker={"size": 8, "color": "#FF5722"}, 
             line={"color": "#FF5722", "width": 2},
             yaxis="y",
         ),
@@ -149,13 +141,13 @@ def scatter_plot(df):
             y=df_yearly["sss"],
             mode="lines+markers",
             name="SSS (Salinity)",
-            marker={"size": 8, "color": "#0277BD"},  # Blue for salinity
+            marker={"size": 8, "color": "#0277BD"},  
             line={"color": "#0277BD", "width": 2},
             yaxis="y2",
         ),
     )
 
-    # Set layout with dual-axis options
+    # Set layout 
     fig.update_layout(
         title="Yearly Evolution of Sea Surface Temperature and Sea Surface Salinity",
         xaxis={"title": "", "showgrid": False, "color": "#FDD835"},
@@ -182,7 +174,7 @@ def scatter_plot(df):
 
 
 def pie_plot(df, field, colors=None):
-    """Create a Plotly pie plot for data from 2000 or later, segmented by a specified field.
+    """Create a pie plot segmented by a specified field.
 
     Args:
     ----
@@ -233,7 +225,7 @@ def pie_plot(df, field, colors=None):
 
 
 def map_heatmap(turtles_data):
-    """Generate a heatmap on a satellite view map using folium, from the turtle observations data.
+    """Generate a heatmap on a satellite map using folium, from the turtle observations data.
 
     Args:
     ----
@@ -286,13 +278,14 @@ def filter_turtle_data(turtles_data, year):
     filtered_data["date_year"] = filtered_data["date_year"].astype(int)
     return filtered_data[["date_year", "decimalLatitude", "decimalLongitude"]]
 
-
+# %% Data
+turtles_data = load_data("Resources/seaturtles.csv")
 # Get the first and last years from the filtered data
 filtered_years = turtles_data[turtles_data["date_year"].astype(int) >= 1992]
 first_date = filtered_years["date_year"].astype(int).min()
 last_date = filtered_years["date_year"].astype(int).max()
 
-# Display the plot in Streamlit
+# %% App
 col1, col2 = st.columns([0.9, 9])
 with col1:
     st.image(
