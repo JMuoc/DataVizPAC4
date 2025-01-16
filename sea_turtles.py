@@ -56,7 +56,7 @@ def turtle_population_plot(df):
     fig.add_annotation(
         x=2009,  
         y=df_yearly["count"].max(),  
-        text="Surveys from 2007-2009 found hawksbill nesting in 6 eastern Pacific nations, with 80% of nests in El Salvador.",
+        text="Surveys from 2007-2009 found many hawksbill nesting in various eastern Pacific nations.",
         showarrow=True,
         arrowhead=2,
         ax=0,
